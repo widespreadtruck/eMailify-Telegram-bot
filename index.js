@@ -1,5 +1,5 @@
 require("dotenv").config()
-
+const { InlineKeyboardButton } = require("telegraf")
 const nodemailer = require("nodemailer")
 const TelegramBot = require("node-telegram-bot-api")
 
@@ -48,3 +48,38 @@ bot.on("message", (msg) => {
     }
   })
 })
+
+
+const option1 = new InlineKeyboardButton({
+  text: "Option 1",
+  callback_data: "option1",
+})
+const option2 = new InlineKeyboardButton({
+  text: "Option 2",
+  callback_data: "option2",
+})
+const option3 = new InlineKeyboardButton({
+  text: "Option 3",
+  callback_data: "option3",
+})
+const option4 = new InlineKeyboardButton({
+  text: "Option 4",
+  callback_data: "option4",
+})
+
+const menu = [
+  [option1, option2],
+  [option3, option4],
+]
+
+const markup = new InlineKeyboardMarkup({ inline_keyboard: menu })
+
+bot.command("menu", (ctx) => {
+  ctx.reply("Here are the options in the menu:", markup)
+})
+
+bot.action("option1", (ctx) => {
+  ctx.reply("You selected option 1")
+})
+
+bot.telegram.setChatMenuButton("menu")
