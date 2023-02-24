@@ -1,7 +1,6 @@
 require("dotenv").config()
-const { InlineKeyboardButton } = require("telegraf")
-const nodemailer = require("nodemailer")
 const TelegramBot = require("node-telegram-bot-api")
+const nodemailer = require("nodemailer")
 
 // Initialize the eMailify bot
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true })
@@ -14,8 +13,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SENDER_EMAIL_PASSWORD,
   },
 })
-
-// console.log("transporter", transporter)
 
 // Listen for incoming messages
 bot.on("message", (msg) => {
@@ -37,7 +34,7 @@ bot.on("message", (msg) => {
     text: `Message from ${from}:\n\n${text}`,
   }
 
-  // Send the email
+//   // Send the email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error(error)
@@ -49,37 +46,4 @@ bot.on("message", (msg) => {
   })
 })
 
-
-const option1 = new InlineKeyboardButton({
-  text: "Option 1",
-  callback_data: "option1",
-})
-const option2 = new InlineKeyboardButton({
-  text: "Option 2",
-  callback_data: "option2",
-})
-const option3 = new InlineKeyboardButton({
-  text: "Option 3",
-  callback_data: "option3",
-})
-const option4 = new InlineKeyboardButton({
-  text: "Option 4",
-  callback_data: "option4",
-})
-
-const menu = [
-  [option1, option2],
-  [option3, option4],
-]
-
-const markup = new InlineKeyboardMarkup({ inline_keyboard: menu })
-
-bot.command("menu", (ctx) => {
-  ctx.reply("Here are the options in the menu:", markup)
-})
-
-bot.action("option1", (ctx) => {
-  ctx.reply("You selected option 1")
-})
-
-bot.telegram.setChatMenuButton("menu")
+console.log(bot)
